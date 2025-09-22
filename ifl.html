@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Ajar DKV Kelas 2 - Checklist Interaktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .accordion-header.active + .accordion-content {
+            max-height: 5000px; /* Adjust as needed */
+            transition: max-height 0.5s ease-in;
+        }
+        .completed {
+            background-color: #f0fdf4; /* Light green */
+            border-left-color: #22c55e; /* Green */
+        }
+        .completed .completed-badge {
+            display: inline-block;
+        }
+        .completed .checkbox-label-text {
+            text-decoration: line-through;
+            color: #6b7280;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Materi Ajar DKV Kelas 2</h1>
+            <p class="text-lg text-gray-600 mt-2">Tema: Dari Konsep Menjadi Karya Komersial yang Terintegrasi</p>
+        </header>
+
+        <main id="course-content">
+            <!-- Modul 1 -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-blue-500 pb-2 mb-4">MODUL 1: PENGUATAN FONDASI & PROSES BERPIKIR DESAIN</h2>
+                <div class="space-y-4">
+                    <!-- Pertemuan 1 -->
+                    <div class="accordion-item bg-white border border-gray-200 rounded-lg shadow-sm" data-id="1">
+                        <div class="accordion-header flex justify-between items-center p-4 cursor-pointer">
+                            <h3 class="text-lg font-semibold text-gray-900">Pertemuan 1: Psikologi Warna & Tipografi Ekspresh3>
+                            <div class="flex items-center space-x-3">
+                                <span class="completed-badge hidden text-xs font-medium bg-green-100 text-green-700 px-2 py-1 rounded-full">Selesai</span>
+                                <input type="checkbox" id="pertemuan-1" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                <label for="pertemuan-1" class="text-sm font-medium text-gray-700 checkbox-label-text">Tandai Selesai</label>
+                            </div>
+                        </div>
+                        <div class="accordion-content border-t border-gray-200 px-4 pb-4">
+                            <div class="prose max-w-none mt-4 text-gray-600">
+                                <p><strong>Tujuan:</strong></p>
+                                <ul>
+                                    <li>Memahami bagaimana warna dan huruf dapat membangkitkan emosi.</li>
+                                    <li>Mampu menganalisis penggunaan warna dan tipografi pada karya desain.</li>
+                                    <li>Mampu menerapkan teori untuk membangun mood sebuah brand.</li>
+                                </ul>
+                                <p><strong>Praktik / Tugas:</strong></p>
+                                <ol>
+                                    <li><strong>Analisis (Individu):</strong> Cari 3 iklan/poster, bedah penggunaan warna dan tipografinya.</li>
+                                    <li><strong>Mood Board (Kelompok):</strong> Buat 2 mood board digital untuk konsep brand "Kedai Kopi Tenang" vs. "Minuman Energi Ekstrem".</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pertemuan 2 -->
+                    <div class="accordion-item bg-white border border-gray-200 rounded-lg shadow-sm" data-id="2">
+                        <div class="accordion-header flex justify-between items-center p-4 cursor-pointer">
+                            <h3 class="text-lg font-semibold text-gray-900">Pertemuan 2: Komposisi & Tata Letak Berbasis Grid</h3>
+                            <div class="flex items-center space-x-3">
+                                <span class="completed-badge hidden text-xs font-medium bg-green-100 text-green-700 px-2 py-1 rounded-full">Selesai</span>
+                                <input type="checkbox" id="pertemuan-2" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                <label for="pertemuan-2" class="text-sm font-medium text-gray-700 checkbox-label-text">Tandai Selesai</label>
+                            </div>
+                        </div>
+                        <div class="accordion-content border-t border-gray-200 px-4 pb-4">
+                             <div class="prose max-w-none mt-4 text-gray-600">
+                                <p><strong>Tujuan:</strong></p>
+                                <ul>
+                                    <li>Menguasai pembuatan layout yang rapi dan profesional.</li>
+                                    <li>Memahami peran white space dalam desain.</li>
+                                    <li>Mampu menerapkan sistem grid pada desain.</li>
+                                </ul>
+                                <p><strong>Praktik / Tugas:</strong> Mendesain ulang sebuah layout halaman majalah/website yang berantakan menjadi terstruktur menggunakan grid 12 kolom di Adobe Illustrator atau InDesign.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pertemuan 3 -->
+                    <div class="accordion-item bg-white border border-gray-200 rounded-lg shadow-sm" data-id="3">
+                        <div class="accordion-header flex justify-between items-center p-4 cursor-pointer">
+                            <h3 class="text-lg font-semibold text-gray-900">Pertemuan 3: Proses Desain & Creative Brief</h3>
+                            <div class="flex items-center space-x-3">
+                                <span class="completed-badge hidden text-xs font-medium bg-green-100 text-green-700 px-2 py-1 rounded-full">Selesai</span>
+                                <input type="checkbox" id="pertemuan-3" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                <label for="pertemuan-3" class="text-sm font-medium text-gray-700 checkbox-label-text">Tandai Selesai</label>
+                            </div>
+                        </div>
+                        <div class="accordion-content border-t border-gray-200 px-4 pb-4">
+                             <div class="prose max-w-none mt-4 text-gray-600">
+                                <p><strong>Tujuan:</strong></p>
+                                <ul>
+                                    <li>Memahami alur kerja desainer profesional (Design Thinking).</li>
+                                    <li>Mampu membedah creative brief untuk menemukan inti masalah.</li>
+                                    <li>Menguasai teknik brainstorming untuk menghasilkan ide.</li>
+                                </ul>
+                                <p><strong>Praktik / Tugas:</strong> Untuk brief "Poster Pentas Seni Sekolah", buat mind map, kumpulkan 10 referensi visual, dan buat 5 thumbnail sketch yang berbeda.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modul 2 -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 border-b-2 border-purple-500 pb-2 mb-4">MODUL 2: PROYEK UTAMA 1 - DESAIN IDENTITAS VISUAL</h2>
+                <div class="space-y-4">
+                    <!-- Pertemuan 4 -->
+                    <div class="accordion-item bg-white border border-gray-200 rounded-lg shadow-sm" data-id="4">
+                        <div class="accordion-header flex justify-between items-center p-4 cursor-pointer">
+                            <h3 class="text-lg font-semibold text-gray-900">Pertemuan 4: Riset dan Konsep Logo</h3>
+                            <div class="flex items-center space-x-3">
+                                <span class="completed-badge hidden text-xs font-medium bg-green-100 text-green-700 px-2 py-1 rounded-full">Selesai</span>
+                                <input type="checkbox" id="pertemuan-4" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                <label for="pertemuan-4" class="text-sm font-medium text-gray-700 checkbox-label-text">Tandai Selesai</label>
+                            </div>
+                        </div>
+                        <div class="accordion-content border-t border-gray-200 px-4 pb-4">
+                             <div class="prose max-w-none mt-4 text-gray-600">
+                                <p><strong>Tujuan:</strong></p>
+                                <ul>
+                                    <li>Mengembangkan konsep logo yang kuat berdasarkan riset.</li>
+                                    <li>Memahami berbagai jenis logo dan fungsinya.</li>
+                                </ul>
+                                <p><strong>Praktik / Tugas:</strong> Berdasarkan brand fiktif yang dipilih, lakukan analisis SWOT, buat mood board, dan mulai sketsa kasar logo (minimal 20 sketsa).</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Add other meetings for Modul 2 here -->
+                </div>
+            </div>
+            
+            <!-- Other Modules would follow the same structure -->
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const STORAGE_KEY = 'dkvMateriChecklistStatus';
+            
+            // Accordion functionality
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', event => {
+                    // Stop checkbox click from toggling accordion
+                    if (event.target.type === 'checkbox' || event.target.tagName === 'LABEL') {
+                        return;
+                    }
+                    header.classList.toggle('active');
+                });
+            });
+
+            const allItems = document.querySelectorAll('.accordion-item');
+            
+            // Load state from localStorage
+            function loadState() {
+                const storedState = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+                allItems.forEach(item => {
+                    const id = item.dataset.id;
+                    const checkbox = item.querySelector('input[type="checkbox"]');
+                    if (storedState[id]) {
+                        checkbox.checked = true;
+                        updateItemStyle(item, true);
+                    } else {
+                        checkbox.checked = false;
+                        updateItemStyle(item, false);
+                    }
+                });
+            }
+
+            // Save state to localStorage
+            function saveState() {
+                const currentState = {};
+                allItems.forEach(item => {
+                    const id = item.dataset.id;
+                    const checkbox = item.querySelector('input[type="checkbox"]');
+                    currentState[id] = checkbox.checked;
+                });
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(currentState));
+            }
+
+            // Update item style based on completion
+            function updateItemStyle(item, isCompleted) {
+                 if (isCompleted) {
+                    item.classList.add('completed');
+                    item.style.borderLeftWidth = '4px';
+                } else {
+                    item.classList.remove('completed');
+                    item.style.borderLeftWidth = '1px';
+                }
+            }
+
+            // Add event listeners to all checkboxes
+            allItems.forEach(item => {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                checkbox.addEventListener('change', () => {
+                    updateItemStyle(item, checkbox.checked);
+                    saveState();
+                });
+            });
+
+            // Initial load
+            loadState();
+        });
+    </script>
+</body>
+</html>
