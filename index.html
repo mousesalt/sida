@@ -3,311 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kurikulum Interaktif: Desain Media Interaktif Kelas XII</title>
+    <title>Portal Pembelajaran Interaktif</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Scholarly Teal -->
-    <!-- Application Structure Plan: The SPA is designed with a two-level navigation system. Main tabs represent the four core modules of the curriculum. Selecting a module reveals a list of its corresponding weeks in a sidebar. This allows users to quickly grasp the overall structure (modules) and then drill down into specific weekly lessons. The main content area displays the selected week's practice and theory sessions side-by-side. This structure was chosen for its intuitive, hierarchical exploration flow, making it easy for teachers and students to navigate the 30-meeting plan without being overwhelmed. -->
-    <!-- Visualization & Content Choices: The curriculum data is presented using interactive navigation. Report Info (Module/Week structure) -> Goal (Organize & Inform) -> Presentation (Tabs for modules, list for weeks, cards for details) -> Interaction (Click to filter and display content) -> Justification (Provides a clear, step-by-step exploration path). A simple donut chart from Chart.js is used at the top to give a high-level overview (4 Modules, 15 Weeks), acting as a visual summary. All icons are Unicode emojis (🧑‍💻, 🧠) rendered as text, adhering to the NO SVG rule. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
         }
-        .chart-container {
-            position: relative;
-            height: 120px;
-            width: 120px;
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .completion-check:checked + label {
-            text-decoration: line-through;
-            color: #14b8a6;
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="bg-slate-50 text-gray-800">
 
-    <div id="app" class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
-        
-        <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Kurikulum Desain Media Interaktif</h1>
-            <p class="mt-2 text-lg text-teal-600 font-medium">Adobe Animate CC & JavaScript - Kelas XII Multimedia</p>
+    <div class="container mx-auto px-4 py-8 md:py-16">
+
+        <header class="text-center mb-12 md:mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900">Portal Pembelajaran Interaktif</h1>
+            <p class="mt-3 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">Sebuah koleksi materi ajar dan kurikulum interaktif untuk Desain Komunikasi Visual dan Multimedia.</p>
         </header>
 
-        <div class="bg-white rounded-xl shadow-lg p-6 mb-8 flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div class="flex-1">
-                <h2 class="text-xl font-bold text-gray-900">Struktur Pembelajaran</h2>
-                <p class="text-gray-600 mt-1">Kurikulum ini dirancang untuk 30 pertemuan, terbagi menjadi 4 modul utama yang mencakup dasar pemrograman interaktif hingga evaluasi produk akhir. Klik modul di bawah untuk melihat detail mingguan.</p>
-            </div>
-            <div class="chart-container">
-                <canvas id="overviewChart"></canvas>
-            </div>
-        </div>
+        <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
 
-        <div id="module-tabs" class="flex flex-wrap border-b border-gray-200 mb-6">
-        </div>
-
-        <div class="lg:grid lg:grid-cols-12 lg:gap-8">
-            <aside class="lg:col-span-3 mb-6 lg:mb-0">
-                <h3 class="text-lg font-semibold mb-3 text-gray-900">Daftar Minggu</h3>
-                <nav id="week-nav" class="space-y-2">
-                </nav>
-            </aside>
-
-            <main class="lg:col-span-9">
-                <div id="content-display" class="bg-white rounded-xl shadow-lg p-6 min-h-[400px] transition-opacity duration-300">
-                    <h2 id="week-title" class="text-2xl font-bold mb-1 text-gray-900"></h2>
-                    <p id="week-subtitle" class="text-md text-teal-600 mb-6"></p>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div id="practice-content" class="bg-slate-50 rounded-lg p-5"></div>
-                        <div id="theory-content" class="bg-slate-50 rounded-lg p-5"></div>
+            <!-- Card 1: Rencana Pembelajaran DKV - Kelas 1 -->
+            <a href="if.html" target="_blank" class="card block bg-white rounded-xl shadow-md overflow-hidden group">
+                <div class="p-8">
+                    <div class="flex items-center">
+                         <div class="flex-shrink-0 h-12 w-12 rounded-full bg-teal-100 flex items-center justify-center">
+                            <span class="text-2xl">📅</span>
+                        </div>
+                        <h2 class="ml-4 text-xl font-bold text-gray-900">Rencana Pembelajaran DKV - Kelas 1</h2>
+                    </div>
+                    <p class="mt-4 text-gray-600">Jelajahi kurikulum DKV kelas 1 melalui linimasa interaktif, fase pembelajaran yang terstruktur, dan detail pertemuan yang dinamis. Lacak progres Anda sepanjang semester.</p>
+                    <div class="mt-6">
+                        <span class="font-semibold text-teal-600 group-hover:text-teal-700 transition-colors">Buka Materi &rarr;</span>
                     </div>
                 </div>
-            </main>
-        </div>
-        
-        <footer class="text-center mt-12 text-sm text-gray-500">
-            <p>Aplikasi Kurikulum Interaktif &copy; 2025</p>
+            </a>
+
+            <!-- Card 2: Materi Ajar DKV - Kelas 2 -->
+            <a href="ifl.html" target="_blank" class="card block bg-white rounded-xl shadow-md overflow-hidden group">
+                <div class="p-8">
+                     <div class="flex items-center">
+                         <div class="flex-shrink-0 h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
+                            <span class="text-2xl">📝</span>
+                        </div>
+                        <h2 class="ml-4 text-xl font-bold text-gray-900">Materi Ajar DKV - Kelas 2</h2>
+                    </div>
+                    <p class="mt-4 text-gray-600">Panduan materi ajar DKV kelas 2 dengan tema "Dari Konsep Menjadi Karya Komersial". Gunakan checklist interaktif untuk memantau penyelesaian setiap pertemuan dan tugas.</p>
+                    <div class="mt-6">
+                        <span class="font-semibold text-blue-600 group-hover:text-blue-700 transition-colors">Buka Materi &rarr;</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Card 3: Kurikulum Desain Media Interaktif - Kelas XII -->
+            <a href="dmi.html" target="_blank" class="card block bg-white rounded-xl shadow-md overflow-hidden group">
+                 <div class="p-8">
+                     <div class="flex items-center">
+                         <div class="flex-shrink-0 h-12 w-12 rounded-full bg-emerald-100 flex items-center justify-center">
+                            <span class="text-2xl">🖱️</span>
+                        </div>
+                        <h2 class="ml-4 text-xl font-bold text-gray-900">Kurikulum Desain Media Interaktif - Kelas XII</h2>
+                    </div>
+                    <p class="mt-4 text-gray-600">Kurikulum lengkap untuk kelas XII Multimedia, berfokus pada Adobe Animate CC dan JavaScript. Lihat detail praktik dan teori untuk 30 pertemuan dalam 4 modul.</p>
+                     <div class="mt-6">
+                        <span class="font-semibold text-emerald-600 group-hover:text-emerald-700 transition-colors">Buka Materi &rarr;</span>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Card 4: Dasar-Dasar Algoritma Interaktif -->
+            <a href="pd.html" target="_blank" class="card block bg-white rounded-xl shadow-md overflow-hidden group">
+                <div class="p-8">
+                     <div class="flex items-center">
+                         <div class="flex-shrink-0 h-12 w-12 rounded-full bg-amber-100 flex items-center justify-center">
+                            <span class="text-2xl">⚙️</span>
+                        </div>
+                        <h2 class="ml-4 text-xl font-bold text-gray-900">Dasar-Dasar Algoritma Interaktif</h2>
+                    </div>
+                    <p class="mt-4 text-gray-600">Pelajari fondasi logika pemrograman melalui visualisasi interaktif. Pahami konsep algoritma dengan perbandingan langsung antara Bahasa Natural, Pseudocode, dan Flowchart.</p>
+                     <div class="mt-6">
+                        <span class="font-semibold text-amber-600 group-hover:text-amber-700 transition-colors">Buka Materi &rarr;</span>
+                    </div>
+                </div>
+            </a>
+
+        </main>
+
+        <footer class="text-center mt-16 text-sm text-gray-500">
+            <p>Portal Pembelajaran Interaktif &copy; 2025</p>
         </footer>
+
     </div>
 
-    <script>
-        const curriculumData = [
-            {
-                module: 1,
-                title: "Dasar Pemrograman Interaktif",
-                weeks: [
-                    { week: 1, title: "Fondasi Animate CC & JavaScript", practice: "Pengenalan antarmuka Adobe Animate CC. Membuat proyek baru **HTML5 Canvas**. Pengenalan *Panel Actions* dan menulis kode JavaScript pertama: `console.log(\"Halo Animate!\");`. Memublikasikan dan melihat output di *console browser* (F12).", theory: "Konsep dasar *coding* untuk web interaktif. Pengenalan sintaks dasar JavaScript (variabel dengan `let`/`const`, tipe data, komentar) yang akan digunakan di dalam Animate." },
-                    { week: 2, title: "Logika dan Interaksi Dasar", practice: "Mengubah *Symbol Graphic* menjadi *Symbol Button*. Memanfaatkan *Panel Code Snippets* untuk menambahkan interaksi klik sederhana. Menggunakan `if-else` untuk membuat logika kondisional.", theory: "Membahas struktur logika `if-else` dalam JavaScript. Memperkenalkan konsep `this` di Animate, yang merujuk pada *timeline* utama. Contoh: `this.stop();`." },
-                    { week: 3, title: "Event Handling dan Fungsi", practice: "Menambahkan *event listener* secara manual dan melalui *Code Snippets*. Merespons *event* `click`, `mouseover`, dan `mouseout` pada objek. Mengorganisir kode ke dalam fungsi JavaScript.", theory: "Penjelasan mendalam tentang model *event listener* pada HTML5 Canvas (CreateJS). Manfaat fungsi untuk membuat kode yang rapi dan efisien." },
-                    { week: 4, title: "Mengontrol Timeline & Animasi", practice: "Membuat navigasi *timeline* dengan kode: `this.gotoAndPlay(\"namaFrameLabel\");` dan `this.gotoAndStop(nomorFrame);`. Membuat galeri atau presentasi.", theory: "Perbedaan animasi *timeline* vs animasi terprogram. Pengenalan *library* **CreateJS Tween** untuk membuat animasi objek dinamis via kode." }
-                ]
-            },
-            {
-                module: 2,
-                title: "Integrasi Aset Multimedia",
-                weeks: [
-                    { week: 5, title: "Bekerja dengan Teks Dinamis", practice: "Membuat *Input Text* untuk formulir dan *Dynamic Text* untuk skor/pesan. Mengambil dan mengubah nilai teks melalui JavaScript (`this.namaInstanceTeks.text = \"Teks Baru\";`).", theory: "Membahas properti dan manipulasi objek teks di Animate. Praktik terbaik untuk menampilkan teks di platform web (ukuran, keterbacaan, jenis font)." },
-                    { week: 6, title: "Mengelola Audio dengan Kode", practice: "Mengimpor audio (MP3, WAV) ke *Library*. Menggunakan *Code Snippets* atau kode `createjs.Sound.play(\"idSuara\");` untuk memutar dan menghentikan suara.", theory: "Konsep HTML5 Audio yang bekerja di balik layar Animate. Cara mengelola pemutaran suara agar tidak tumpang tindih." },
-                    { week: 7, title: "Mengelola Video dengan Kode", practice: "Menggunakan komponen **Video** modern di Animate CC untuk menyematkan video (MP4). Menghubungkan video dengan tombol kontrol kustom (*play/pause*).", theory: "Format video standar untuk web (MP4 dengan H.264). Praktik terbaik untuk optimasi video agar cepat dimuat." }
-                ]
-            },
-            {
-                module: 3,
-                title: "Data dan Publikasi Produk",
-                weeks: [
-                    { week: 8, title: "Pengenalan Struktur Data", practice: "Membuat aplikasi kuis interaktif. Menyimpan data pertanyaan dan jawaban dalam **JavaScript Array**. Menggunakan perulangan (`for loop`) untuk menampilkan data.", theory: "Konsep *Array* dan *Object* pada JavaScript sebagai cara mengelola data yang kompleks. Cara mengakses dan memanipulasi data di dalamnya." },
-                    { week: 9, title: "Publikasi Produk Web Modern", practice: "Mendalami **Publish Settings** untuk HTML5 Canvas. Memahami struktur file yang dihasilkan: `.html`, `.js`, dan folder aset. Menguji proyek di berbagai browser.", theory: "Membahas konsep *responsive design*. Menggunakan *template* publikasi di Animate untuk membuat konten yang bisa menyesuaikan ukuran layar." },
-                    { week: 10, title: "Review dan Latihan Gabungan", practice: "Sesi latihan mandiri membuat aplikasi interaktif mini (misalnya, *soundboard* atau kalkulator sederhana) yang menggabungkan semua materi.", theory: "Sesi *review* dan tanya jawab. Membahas *best practices* dalam penulisan kode JavaScript dan cara *debugging* menggunakan *console browser*." }
-                ]
-            },
-            {
-                module: 4,
-                title: "Proyek Akhir dan Evaluasi",
-                weeks: [
-                    { week: 11, title: "Perancangan Proyek Akhir", practice: "Siswa merancang proyek akhir (misal: game edukasi, profil perusahaan, simulasi). Membuat *flowchart* dan *storyboard*.", theory: "Metodologi pengembangan produk. Menentukan tujuan, target audiens, dan ruang lingkup proyek." },
-                    { week: 12, title: "Pengembangan Aset & Antarmuka", practice: "Siswa membuat aset visual (grafik, animasi) dan audio. Mulai membangun antarmuka pengguna (UI) di Adobe Animate CC.", theory: "Mengulang kembali prinsip desain UI/UX (*User Interface/User Experience*) untuk memastikan proyek mudah digunakan dan menarik." },
-                    { week: 13, title: "Implementasi Kode & Integrasi", practice: "Sesi *coding* JavaScript intensif. Siswa mengimplementasikan interaktivitas pada proyek mereka dengan bimbingan guru.", theory: "Strategi *debugging* dan pemecahan masalah (*troubleshooting*) dalam *coding*." },
-                    { week: 14, title: "Pengujian dan Finalisasi", practice: "Siswa melakukan pengujian proyek di berbagai *browser* dan perangkat untuk mencari *bug* dan masalah kompatibilitas.", theory: "Pengenalan konsep evaluasi produk interaktif. Parameter evaluasi: *usability*, performa, konten, dan desain." },
-                    { week: 15, title: "Presentasi & Evaluasi Akhir", practice: "Finalisasi akhir proyek dan persiapan bahan presentasi.", theory: "Setiap kelompok/individu mempresentasikan hasil proyek akhir mereka di depan kelas. Sesi evaluasi dan umpan balik." }
-                ]
-            }
-        ];
-
-        let activeModule = 1;
-        let activeWeek = 1;
-        let completionStatus = {};
-
-        const moduleTabsContainer = document.getElementById('module-tabs');
-        const weekNavContainer = document.getElementById('week-nav');
-        const weekTitleEl = document.getElementById('week-title');
-        const weekSubtitleEl = document.getElementById('week-subtitle');
-        const practiceContentEl = document.getElementById('practice-content');
-        const theoryContentEl = document.getElementById('theory-content');
-        const contentDisplayEl = document.getElementById('content-display');
-
-        function loadCompletionStatus() {
-            const savedStatus = localStorage.getItem('curriculumCompletionStatus');
-            if (savedStatus) {
-                completionStatus = JSON.parse(savedStatus);
-            }
-        }
-
-        function saveCompletionStatus() {
-            localStorage.setItem('curriculumCompletionStatus', JSON.stringify(completionStatus));
-        }
-        
-        function handleCheck(event) {
-            const checkbox = event.target;
-            if (checkbox.matches('.completion-check')) {
-                const id = checkbox.dataset.id;
-                completionStatus[id] = checkbox.checked;
-                saveCompletionStatus();
-                renderWeekNav(); 
-            }
-        }
-
-        contentDisplayEl.addEventListener('change', handleCheck);
-
-
-        function renderModuleTabs() {
-            moduleTabsContainer.innerHTML = '';
-            curriculumData.forEach(module => {
-                const isActive = module.module === activeModule;
-                const button = document.createElement('button');
-                button.textContent = `Modul ${module.module}: ${module.title}`;
-                button.className = `px-4 py-2 -mb-px text-sm font-semibold border-b-2 rounded-t-lg transition-colors duration-200 ${
-                    isActive 
-                    ? 'border-teal-500 text-teal-600' 
-                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                }`;
-                button.onclick = () => {
-                    activeModule = module.module;
-                    const firstWeekOfModule = curriculumData.find(m => m.module === activeModule).weeks[0].week;
-                    activeWeek = firstWeekOfModule;
-                    renderAll();
-                };
-                moduleTabsContainer.appendChild(button);
-            });
-        }
-        
-        function renderWeekNav() {
-            weekNavContainer.innerHTML = '';
-            const currentModuleData = curriculumData.find(m => m.module === activeModule);
-            if (!currentModuleData) return;
-
-            currentModuleData.weeks.forEach(week => {
-                const isActive = week.week === activeWeek;
-                const practiceId = `w${week.week}-p`;
-                const theoryId = `w${week.week}-t`;
-                const isWeekComplete = completionStatus[practiceId] && completionStatus[theoryId];
-
-                const link = document.createElement('a');
-                link.href = '#';
-                link.innerHTML = `<span class="font-bold">Minggu ${week.week}:</span> ${week.title} ${isWeekComplete ? '✔️' : ''}`;
-                link.className = `flex justify-between items-center p-3 rounded-lg text-sm transition-colors duration-200 ${
-                    isActive
-                    ? 'bg-teal-100 text-teal-800 font-semibold'
-                    : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
-                }`;
-                link.onclick = (e) => {
-                    e.preventDefault();
-                    activeWeek = week.week;
-                    renderAll();
-                };
-                weekNavContainer.appendChild(link);
-            });
-        }
-
-        function renderContent() {
-            const currentModuleData = curriculumData.find(m => m.module === activeModule);
-            const currentWeekData = currentModuleData?.weeks.find(w => w.week === activeWeek);
-
-            if (!currentWeekData) {
-                weekTitleEl.textContent = 'Konten tidak ditemukan';
-                return;
-            }
-            
-            contentDisplayEl.style.opacity = 0;
-            
-            setTimeout(() => {
-                weekTitleEl.textContent = `Minggu ${currentWeekData.week}`;
-                weekSubtitleEl.textContent = currentWeekData.title;
-
-                const practiceId = `w${currentWeekData.week}-p`;
-                const theoryId = `w${currentWeekData.week}-t`;
-                const isPracticeChecked = completionStatus[practiceId] ? 'checked' : '';
-                const isTheoryChecked = completionStatus[theoryId] ? 'checked' : '';
-
-                practiceContentEl.innerHTML = `
-                    <div class="flex items-start justify-between">
-                        <h3 class="font-bold text-lg mb-2 text-gray-800">Pertemuan 1 (Praktik 🧑‍💻)</h3>
-                        <div class="flex items-center">
-                            <input type="checkbox" id="${practiceId}" data-id="${practiceId}" class="completion-check h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500" ${isPracticeChecked}>
-                            <label for="${practiceId}" class="ml-2 text-sm text-gray-600">Selesai</label>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 leading-relaxed mt-2">${currentWeekData.practice}</p>
-                `;
-
-                theoryContentEl.innerHTML = `
-                    <div class="flex items-start justify-between">
-                        <h3 class="font-bold text-lg mb-2 text-gray-800">Pertemuan 2 (Teori 🧠)</h3>
-                        <div class="flex items-center">
-                            <input type="checkbox" id="${theoryId}" data-id="${theoryId}" class="completion-check h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500" ${isTheoryChecked}>
-                             <label for="${theoryId}" class="ml-2 text-sm text-gray-600">Selesai</label>
-                        </div>
-                    </div>
-                    <p class="text-gray-600 leading-relaxed mt-2">${currentWeekData.theory}</p>
-                `;
-                contentDisplayEl.style.opacity = 1;
-            }, 150);
-        }
-        
-        function renderAll() {
-            renderModuleTabs();
-            renderWeekNav();
-            renderContent();
-        }
-        
-        function renderChart() {
-            const ctx = document.getElementById('overviewChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Modul 1', 'Modul 2', 'Modul 3', 'Modul 4'],
-                    datasets: [{
-                        label: 'Jumlah Minggu',
-                        data: curriculumData.map(m => m.weeks.length),
-                        backgroundColor: [
-                            '#14b8a6', // teal-500
-                            '#2dd4bf', // teal-400
-                            '#5eead4', // teal-300
-                            '#99f6e4'  // teal-200
-                        ],
-                        borderColor: '#ffffff',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '70%',
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== null) {
-                                        label += context.parsed + ' Minggu';
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadCompletionStatus();
-            renderAll();
-            renderChart();
-        });
-
-    </script>
 </body>
 </html>
-
-
