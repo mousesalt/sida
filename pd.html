@@ -22,6 +22,13 @@
         .session-card {
             transition: all 0.3s ease;
         }
+        .session-card.completed {
+            background-color: #EAE3DA;
+            opacity: 0.8;
+        }
+        .session-card.completed .session-text {
+            text-decoration: line-through;
+        }
     </style>
      <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -189,9 +196,22 @@
 
         const sessionGrid = document.getElementById('session-grid');
         const sessionDetails = document.getElementById('session-details');
-        const firstSessionIndex = 0; // The index of "Pertemuan 2" in our array is 0
+        let completedSessions = {};
 
-        function showSession(index) {
+        function toggleComplete(event, sessionId) {
+            event.stopPropagation();
+            const card = event.target.closest('.session-card');
+            if (event.target.checked) {
+                completedSessions[sessionId] = true;
+                card.classList.add('completed');
+            } else {
+                delete completedSessions[sessionId];
+                card.classList.remove('completed');
+            }
+            localStorage.setItem('completedDKVSessions', JSON.stringify(completedSessions));
+        }
+
+        function showSession(index, cardElement) {
             const session = curriculumData[index];
             if (!session) return;
 
@@ -216,32 +236,61 @@
                 </div>
             `;
 
-            updateActiveButton(index);
+            updateActiveCard(cardElement);
         }
 
-        function updateActiveButton(activeIndex) {
-            const buttons = sessionGrid.querySelectorAll('button');
-            buttons.forEach((button, index) => {
-                if (index === activeIndex) {
-                    button.classList.add('active-session');
-                } else {
-                    button.classList.remove('active-session');
-                }
+        function updateActiveCard(activeCard) {
+            const cards = sessionGrid.querySelectorAll('.session-card');
+            cards.forEach(card => {
+                card.classList.remove('active-session');
             });
+            if (activeCard) {
+                activeCard.classList.add('active-session');
+            }
         }
         
         function init() {
+            completedSessions = JSON.parse(localStorage.getItem('completedDKVSessions')) || {};
+
+            sessionGrid.innerHTML = ''; // Clear existing grid
             curriculumData.forEach((session, index) => {
-                const button = document.createElement('button');
-                button.className = "session-card w-full p-3 bg-white rounded-lg shadow hover:shadow-md hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#D57A66] focus:ring-opacity-50 font-semibold";
-                button.textContent = `P-${session.id}`;
-                button.onclick = () => showSession(index);
-                sessionGrid.appendChild(button);
+                const card = document.createElement('div');
+                card.className = "session-card flex items-center justify-between w-full p-3 bg-white rounded-lg shadow hover:shadow-md hover:-translate-y-1 focus-within:ring-2 focus-within:ring-[#D57A66] focus-within:ring-opacity-50 font-semibold cursor-pointer";
+                
+                const textSpan = document.createElement('span');
+                textSpan.className = "session-text";
+                textSpan.textContent = `P-${session.id}`;
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = "h-5 w-5 rounded text-[#D57A66] focus:ring-[#D57A66]";
+                checkbox.onchange = (e) => toggleComplete(e, session.id);
+                
+                card.appendChild(textSpan);
+                card.appendChild(checkbox);
+                
+                card.onclick = (e) => {
+                    if (e.target.type !== 'checkbox') {
+                         showSession(index, card);
+                    }
+                };
+
+                if (completedSessions[session.id]) {
+                    card.classList.add('completed');
+                    checkbox.checked = true;
+                }
+                
+                sessionGrid.appendChild(card);
             });
-            showSession(firstSessionIndex);
+
+            if (curriculumData.length > 0) {
+                const firstCard = sessionGrid.querySelector('.session-card');
+                showSession(0, firstCard);
+            }
         }
 
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
+
