@@ -3,313 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dasar-Dasar Algoritma Interaktif</title>
+    <title>RPP Interaktif - Pemrograman Dasar DKV</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Earthy Neutral -->
-    <!-- Application Structure Plan: Aplikasi ini dirancang dengan struktur tematik non-linear untuk memfasilitasi pembelajaran eksploratif, berbeda dari struktur buku yang linear. Navigasi utama dibagi menjadi 'Beranda', 'Representasi Algoritma', 'Blok Pembangun', dan 'Struktur Kontrol'. Struktur ini dipilih agar siswa dapat langsung melompat ke konsep yang ingin mereka pelajari. Interaksi utamanya adalah perbandingan langsung antara Bahasa Natural, Pseudocode, dan Flowchart untuk masalah yang sama, yang secara visual memperkuat pemahaman. Ini lebih efektif daripada membaca halaman terpisah. Alur pengguna dirancang agar intuitif: pilih topik -> eksplorasi konten interaktif -> coba contoh sederhana. -->
-    <!-- Visualization & Content Choices: Semua diagram alir (flowchart) dibuat menggunakan HTML dan Tailwind CSS (divs, borders, flexbox) untuk menghindari penggunaan SVG dan memastikan kustomisasi penuh serta responsivitas (CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.). Ini juga membuat visualisasi terasa terintegrasi dengan gaya aplikasi. Konsep-konsep seperti variabel dan operator disajikan dalam kartu interaktif (accordion) untuk menyajikan informasi secara bertahap. Struktur kontrol (percabangan dan perulangan) didemonstrasikan melalui input pengguna yang hasilnya langsung ditampilkan secara visual, menyorot alur logika pada diagram yang disimulasikan. Ini mengubah konsep pasif menjadi pengalaman aktif. -->
+    <!-- Chosen Palette: Warm Neutrals (Cream, Dark Slate, Muted Terracotta) -->
+    <!-- Application Structure Plan: A dashboard-style layout with a responsive grid of clickable session cards for navigation. A separate content panel dynamically displays the selected session's details (materials, tasks). This task-oriented structure is chosen for quick, non-linear access to lesson plans, which is more user-friendly and engaging than a long, static document for the target audience (teachers/students). -->
+    <!-- Visualization & Content Choices: The source report is textual. Therefore, the primary presentation method is structured text (HTML lists, paragraphs). Goal: Inform & Organize. Method: Dynamic text blocks updated via JavaScript. Interaction: User clicks a session card to filter and display the relevant lesson plan. Justification: This provides an interactive and clean way to navigate a curriculum without needing complex charts. Library/Method: Vanilla JavaScript for DOM manipulation. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #F8F4E8; color: #4A4A4A; }
-        .nav-link { transition: all 0.3s; }
-        .nav-link.active, .nav-link:hover { background-color: #E8E2D0; color: #3D3D3D; }
-        .content-section { display: none; }
-        .content-section.active { display: block; }
-        .tab-button { transition: all 0.3s; }
-        .tab-button.active { background-color: #A99985; color: white; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .flowchart { display: flex; flex-direction: column; align-items: center; font-family: monospace; }
-        .flowchart-shape { border: 2px solid #A99985; background-color: #FFFFFF; min-width: 150px; padding: 10px 20px; text-align: center; margin-bottom: 20px; position: relative; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .flowchart-shape.highlight { background-color: #D8E4BC; border-color: #8A9A5B; }
-        .flowchart-terminator { border-radius: 9999px; }
-        .flowchart-process { border-radius: 4px; }
-        .flowchart-io { transform: skew(-20deg); }
-        .flowchart-io span { display: inline-block; transform: skew(20deg); }
-        .flowchart-decision { transform: rotate(45deg); width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; }
-        .flowchart-decision span { transform: rotate(-45deg); max-width: 100px; }
-        .flowchart-arrow { width: 2px; background-color: #A99985; height: 20px; position: relative; }
-        .flowchart-arrow::after { content: ''; position: absolute; bottom: -1px; left: -4px; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 6px solid #A99985; }
-        .flowchart-decision-path { position: absolute; font-size: 0.8em; background-color: #F8F4E8; padding: 0 5px; color: #6c757d; }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .active-session {
+            background-color: #D57A66; /* Muted Terracotta */
+            color: #FFFFFF;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        .session-card {
+            transition: all 0.3s ease;
+        }
     </style>
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<body class="antialiased">
-    <div class="flex flex-col md:flex-row min-h-screen">
-        <aside class="w-full md:w-64 bg-[#EFEAD8] p-4 md:p-6 shadow-md md:min-h-screen">
-            <h1 class="text-2xl font-bold text-gray-800 mb-6">Dasar Algoritma</h1>
-            <nav id="main-nav" class="flex flex-row md:flex-col gap-2">
-                <a href="#" data-target="beranda" class="nav-link active font-semibold rounded-lg px-4 py-2">🏠 Beranda</a>
-                <a href="#" data-target="representasi" class="nav-link font-semibold rounded-lg px-4 py-2">🎨 Representasi</a>
-                <a href="#" data-target="blok" class="nav-link font-semibold rounded-lg px-4 py-2">🧱 Blok Pembangun</a>
-                <a href="#" data-target="struktur" class="nav-link font-semibold rounded-lg px-4 py-2">⚙️ Struktur Kontrol</a>
-            </nav>
-        </aside>
+<body class="bg-[#FDF8F2] text-[#36454F]">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-[#36454F]">Rencana Pembelajaran Interaktif</h1>
+            <p class="text-lg text-gray-600 mt-2">Pemrograman Dasar untuk Kelas X Desain Komunikasi Visual</p>
+        </header>
 
-        <main class="flex-1 p-6 md:p-10">
-            <!-- Beranda Section -->
-            <section id="beranda" class="content-section active">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">Selamat Datang di Dunia Algoritma!</h2>
-                <p class="text-lg mb-6">Algoritma adalah jantung dari pemrograman dan desain interaktif. Anggap saja ini adalah "resep" atau urutan langkah logis untuk menyelesaikan sebuah masalah, baik itu untuk membuat program, mendesain alur pengguna, atau bahkan membuat secangkir kopi.</p>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                    <h3 class="text-xl font-semibold mb-3">Mengapa Penting untuk DKV?</h3>
-                    <p>Sebagai desainer komunikasi visual, memahami algoritma melatih Anda untuk berpikir secara terstruktur. Ini adalah fondasi untuk merancang pengalaman pengguna (UX) yang baik, membuat animasi yang mulus, dan berkolaborasi secara efektif dengan para developer. Aplikasi interaktif ini akan memandu Anda melalui konsep-konsep inti dari buku "Pemrograman Dasar" dengan cara yang visual dan menyenangkan.</p>
+        <main>
+            <div class="mb-8">
+                <h2 class="text-xl font-bold mb-4 text-center">Pilih Pertemuan</h2>
+                <div id="session-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-8 gap-3">
+                    <!-- Session buttons will be generated by JavaScript -->
                 </div>
-            </section>
+            </div>
 
-            <!-- Representasi Algoritma Section -->
-            <section id="representasi" class="content-section">
-                <h2 class="text-3xl font-bold text-gray-800 mb-2">Representasi Algoritma</h2>
-                <p class="text-lg mb-6">Sebuah masalah dapat dijelaskan dalam berbagai bentuk. Mari kita lihat bagaimana sebuah algoritma sederhana disajikan dalam 3 cara berbeda.</p>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                    <h3 class="text-xl font-semibold mb-4">Contoh Kasus: Menghitung Volume Balok</h3>
-                    <p class="mb-6">Diberikan input panjang, lebar, dan tinggi sebuah balok, hitung dan tampilkan volumenya.</p>
-                    <div id="tabs-container" class="border-b border-gray-200 mb-4">
-                        <button class="tab-button active px-4 py-2 font-semibold rounded-t-lg" data-tab="natural">Bahasa Natural</button>
-                        <button class="tab-button px-4 py-2 font-semibold rounded-t-lg" data-tab="pseudo">Pseudocode</button>
-                        <button class="tab-button px-4 py-2 font-semibold rounded-t-lg" data-tab="flowchart">Flowchart</button>
-                    </div>
-                    <div id="natural" class="tab-content active bg-gray-50 p-4 rounded-b-lg">
-                        <h4 class="font-semibold mb-2">Langkah-langkah:</h4>
-                        <ol class="list-decimal list-inside space-y-1">
-                            <li>Baca nilai panjang balok.</li>
-                            <li>Baca nilai lebar balok.</li>
-                            <li>Baca nilai tinggi balok.</li>
-                            <li>Hitung volume dengan rumus: panjang x lebar x tinggi.</li>
-                            <li>Tuliskan hasil volume.</li>
-                        </ol>
-                    </div>
-                    <div id="pseudo" class="tab-content font-mono text-sm bg-gray-800 text-white p-4 rounded-b-lg">
-                        <p><span class="text-blue-400">Algoritma</span> VolumeBalok</p>
-                        <p><span class="text-green-400">{ Menghitung volume balok }</span></p>
-                        <p><span class="text-purple-400">DEKLARASI</span></p>
-                        <p>&nbsp;&nbsp;panjang, lebar, tinggi, volume: <span class="text-yellow-400">real</span></p>
-                        <p><span class="text-purple-400">DESKRIPSI:</span></p>
-                        <p>&nbsp;&nbsp;<span class="text-pink-400">READ</span>(panjang, lebar, tinggi)</p>
-                        <p>&nbsp;&nbsp;volume = panjang * lebar * tinggi</p>
-                        <p>&nbsp;&nbsp;<span class="text-pink-400">WRITE</span>(volume)</p>
-                        <p><span class="text-blue-400">END</span></p>
-                    </div>
-                    <div id="flowchart" class="tab-content bg-gray-50 p-6 rounded-b-lg">
-                       <div class="flowchart">
-                           <div class="flowchart-shape flowchart-terminator">START</div>
-                           <div class="flowchart-arrow"></div>
-                           <div class="flowchart-shape flowchart-io"><span>BACA p, l, t</span></div>
-                           <div class="flowchart-arrow"></div>
-                           <div class="flowchart-shape flowchart-process">V = p * l * t</div>
-                           <div class="flowchart-arrow"></div>
-                           <div class="flowchart-shape flowchart-io"><span>TULIS V</span></div>
-                           <div class="flowchart-arrow"></div>
-                           <div class="flowchart-shape flowchart-terminator">END</div>
-                       </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Blok Pembangun Section -->
-            <section id="blok" class="content-section">
-                <h2 class="text-3xl font-bold text-gray-800 mb-2">Blok Pembangun Algoritma</h2>
-                <p class="text-lg mb-6">Setiap algoritma dibangun dari tiga komponen dasar: Variabel, Tipe Data, dan Operator.</p>
-                <div id="accordion-container" class="space-y-4">
-                    <div class="accordion-item bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                        <button class="accordion-header w-full text-left p-6 font-semibold text-xl flex justify-between items-center">
-                            <span>Variabel</span>
-                            <span class="transform transition-transform">▼</span>
-                        </button>
-                        <div class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
-                            <div class="p-6 pt-0">
-                                <p>Variabel adalah 'wadah' simbolik untuk menyimpan nilai. Dalam desain, ini bisa berupa warna, ukuran, atau nama layer. Contoh: `NamaKarakter`, `UkuranFont`, `WarnaLatar`.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                        <button class="accordion-header w-full text-left p-6 font-semibold text-xl flex justify-between items-center">
-                            <span>Tipe Data</span>
-                            <span class="transform transition-transform">▼</span>
-                        </button>
-                        <div class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
-                             <div class="p-6 pt-0">
-                                <p class="mb-2">Tipe data menentukan jenis nilai yang bisa disimpan variabel.</p>
-                                <ul class="list-disc list-inside space-y-1">
-                                    <li><b>String:</b> Teks (contoh: "Andi", "Judul Poster").</li>
-                                    <li><b>Integer:</b> Bilangan bulat (contoh: 10, -5, 150).</li>
-                                    <li><b>Real/Float:</b> Bilangan desimal (contoh: 10.5, 3.14).</li>
-                                    <li><b>Boolean:</b> Nilai benar atau salah (True/False).</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                        <button class="accordion-header w-full text-left p-6 font-semibold text-xl flex justify-between items-center">
-                            <span>Operator</span>
-                             <span class="transform transition-transform">▼</span>
-                        </button>
-                        <div class="accordion-content max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
-                             <div class="p-6 pt-0">
-                                <p class="mb-2">Operator adalah simbol untuk melakukan operasi pada variabel.</p>
-                                <ul class="list-disc list-inside space-y-1">
-                                    <li><b>Aritmatika:</b> Penjumlahan (+), Perkalian (*), Pembagian (/, div), Sisa Bagi (mod).</li>
-                                    <li><b>Relasional:</b> Sama dengan (==), Lebih besar (>), Lebih kecil (<).</li>
-                                    <li><b>Logika:</b> DAN (AND), ATAU (OR), TIDAK (NOT).</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Struktur Kontrol Section -->
-            <section id="struktur" class="content-section">
-                <h2 class="text-3xl font-bold text-gray-800 mb-2">Struktur Kontrol</h2>
-                 <p class="text-lg mb-6">Struktur kontrol mengatur alur jalannya algoritma, memungkinkan adanya keputusan dan pengulangan.</p>
-                
-                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                    <h3 class="text-xl font-semibold mb-3">Percabangan (IF-THEN-ELSE)</h3>
-                    <p class="mb-4">Memungkinkan algoritma mengambil jalur berbeda berdasarkan suatu kondisi. Coba masukkan umur untuk melihat hasilnya.</p>
-                    <div class="flex flex-col md:flex-row gap-6 items-start">
-                        <div class="flex-1">
-                            <label for="age-input" class="font-medium">Masukkan Umur:</label>
-                            <input type="number" id="age-input" class="w-full mt-1 p-2 border border-gray-300 rounded-md" placeholder="Contoh: 18">
-                            <button id="check-age-btn" class="mt-3 bg-[#A99985] text-white font-bold py-2 px-4 rounded-lg hover:bg-[#988875]">Cek Kelayakan SIM</button>
-                            <p id="age-result" class="mt-4 text-lg font-semibold h-8"></p>
-                        </div>
-                        <div class="flex-1 flex justify-center">
-                           <div class="flowchart">
-                               <div id="flow-start" class="flowchart-shape flowchart-terminator">START</div>
-                               <div class="flowchart-arrow"></div>
-                               <div id="flow-input" class="flowchart-shape flowchart-io"><span>BACA Umur</span></div>
-                               <div class="flowchart-arrow"></div>
-                               <div id="flow-decision" class="flowchart-shape flowchart-decision"><span>Umur > 17?</span>
-                                   <div class="flowchart-decision-path" style="top: -20px; right: 50%;">Benar</div>
-                                   <div class="flowchart-decision-path" style="top: 50%; left: -35px;">Salah</div>
-                               </div>
-                               <div class="flex w-full justify-between mt-10">
-                                    <div class="flex flex-col items-center">
-                                         <div class="flowchart-arrow -mt-5"></div>
-                                        <div id="flow-false" class="flowchart-shape flowchart-process">Tulis "Belum Boleh"</div>
-                                    </div>
-                                    <div class="flex flex-col items-center">
-                                        <div class="flowchart-arrow -mt-5"></div>
-                                        <div id="flow-true" class="flowchart-shape flowchart-process">Tulis "Boleh Punya SIM"</div>
-                                    </div>
-                               </div>
-                               <p class="mt-4 text-sm text-gray-500">(Alur yang dieksekusi akan disorot)</p>
-                           </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+            <div id="session-details" class="bg-white p-6 rounded-2xl shadow-lg min-h-[400px]">
+                <!-- Session details will be loaded here -->
+            </div>
         </main>
+
+        <footer class="text-center mt-12 text-gray-500">
+            <p>&copy; 2025 Kurikulum Interaktif DKV.</p>
+        </footer>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('#main-nav a');
-            const contentSections = document.querySelectorAll('.content-section');
+        const curriculumData = [
+            {
+                id: 2,
+                title: "Algoritma Bahasa Natural dalam Proses Desain",
+                materi: [
+                    "Menyusun langkah kerja desain secara sekuensial (berurutan).",
+                    "Pentingnya instruksi yang jelas dan tidak ambigu dalam tim desain.",
+                    "Mengkaji ulang 5 kriteria algoritma yang baik: Input, Output, Terbatas (Finite), Pasti (Define), dan Efisien."
+                ],
+                tugas: "Tuliskan algoritma lengkap menggunakan bahasa natural untuk proses **\"Membuat Desain Stiker untuk Komunitas Sekolah\"**. Mulai dari menerima brief, mencari ide, membuat sketsa, proses digitalisasi, hingga menyerahkan file final kepada klien. Tugas ditulis di buku catatan."
+            },
+            {
+                id: 3,
+                title: "Konsep Variabel dalam Elemen Desain",
+                materi: [
+                    "Definisi variabel sebagai nama simbolik untuk menyimpan nilai (warna, ukuran, teks).",
+                    "Analogi variabel dalam dunia desain: `lebar_kanvas`, `warna_latar`, `nama_font`.",
+                    "Membahas aturan dan saran penamaan variabel agar mudah dimengerti."
+                ],
+                tugas: "Bacalah deskripsi proyek berikut: \"Sebuah kafe 'Kopi Senja' ingin dibuatkan desain menu. Desain harus memuat: nama kafe, daftar 5 menu makanan, daftar 3 menu minuman, harga, alamat, dan akun media sosial. Warna utama adalah cokelat (#6F4E37).\" Identifikasi dan daftarkan semua **variabel** yang mungkin dibutuhkan."
+            },
+            {
+                id: 4,
+                title: "Tipe Data untuk Informasi Visual",
+                materi: [
+                    "Pengertian tipe data sebagai klasifikasi jenis data.",
+                    "**Integer/Real (Bilangan):** Untuk ukuran (pixel), jumlah, harga, resolusi (DPI).",
+                    "**String (Teks):** Untuk judul, nama file, kode warna HEX.",
+                    "**Boolean (Benar/Salah):** Untuk status seperti `layer_terlihat`, `mode_cetak_aktif`."
+                ],
+                tugas: "Lanjutkan tugas dari pertemuan sebelumnya. Untuk setiap variabel yang sudah Anda daftarkan, tentukan **tipe data** yang paling sesuai. Contoh: `nama_kafe: String`, `harga_menu: Integer`."
+            },
+            {
+                id: 5,
+                title: "Operator sebagai Alat Manipulasi Desain",
+                materi: [
+                    "**Operator Aritmatika:** `+`, `-`, `*`, `/` untuk kalkulasi (mengubah ukuran, menghitung total).",
+                    "**Operator Relasional:** `>`, `<`, `==` untuk perbandingan (cek ukuran gambar).",
+                    "**Operator Boolean:** `AND`, `OR`, `NOT` untuk menggabungkan kondisi logika."
+                ],
+                tugas: "Tuliskan ekspresi untuk skenario berikut: 1. Menghitung tinggi baru (`tinggi_baru`) jika `tinggi_awal` diperbesar tiga kali lipat. 2. Memeriksa apakah `jumlah_layer` lebih dari 50. 3. Aset diekspor jika `format_file` adalah 'PNG' **DAN** `resolusi` adalah 300 DPI."
+            },
+            {
+                id: 6,
+                title: "Pseudocode, Naskah Logika Desain",
+                materi: [
+                    "Pengertian pseudocode sebagai bahasa universal yang mendekati kode pemrograman.",
+                    "Struktur dan kata kunci umum: `READ`, `WRITE`, `IF`, `THEN`, `VARIABEL`.",
+                    "Pentingnya indentasi untuk menunjukkan hierarki dan keterbacaan perintah."
+                ],
+                tugas: "Ubahlah algoritma \"Membuat Desain Stiker\" dari tugas Pertemuan 2 menjadi format **pseudocode**. Deklarasikan variabel-variabel yang dibutuhkan di bagian atas."
+            },
+            {
+                id: 7,
+                title: "Flowchart, Memetakan Alur Logika",
+                materi: [
+                    "Tujuan flowchart sebagai gambaran visual alur proses data, yang sangat intuitif bagi siswa DKV.",
+                    "Pengenalan simbol dasar: Terminator (Mulai/Selesai), Proses (Persegi Panjang), Input/Output (Jajar Genjang), dan Decision (Belah Ketupat)."
+                ],
+                tugas: "Gambarkan **flowchart** sederhana di buku catatan untuk algoritma \"Menghitung Total Biaya Cetak Poster\", di mana inputnya adalah `jumlah_poster` dan `harga_per_poster`."
+            },
+            {
+                id: 8,
+                title: "Studi Kasus Flowchart untuk User Flow",
+                materi: [
+                    "Penerapan flowchart dalam merancang alur interaksi pengguna (dasar UI/UX).",
+                    "Membahas contoh flowchart untuk proses yang lebih kompleks, seperti alur login atau checkout di e-commerce."
+                ],
+                tugas: "Gambarkan **flowchart** di buku catatan untuk alur pengguna pada fitur \"Pendaftaran Akun Baru\". Alur harus mencakup input data, proses validasi, dan kemungkinan output (berhasil atau gagal)."
+            },
+            {
+                id: 9,
+                title: "UJIAN TENGAH SEMESTER (Tulis)",
+                materi: [
+                    "Mencakup semua topik dari Pertemuan 2 hingga 8.",
+                    "Bentuk ujian berupa soal esai dan studi kasus tertulis.",
+                    "Siswa akan diminta menjelaskan konsep, lalu diberikan deskripsi masalah desain dan harus membuat pseudocode serta flowchart-nya di lembar jawaban."
+                ],
+                tugas: "Mempelajari kembali materi dari pertemuan 2 sampai 8 untuk persiapan ujian."
+            },
+            {
+                id: 10,
+                title: "Percabangan 1 Kondisi (IF...THEN)",
+                materi: [
+                    "Memahami struktur percabangan untuk menjalankan aksi **hanya jika** sebuah syarat tertentu terpenuhi.",
+                    "Struktur `IF (kondisi) THEN (aksi)` dalam pseudocode dan implementasinya pada simbol Decision di flowchart."
+                ],
+                tugas: "Buat **pseudocode dan flowchart** untuk logika berikut: \"Jika seorang pelanggan berbelanja di atas Rp 500.000, maka cetak pesan 'Selamat, Anda mendapatkan voucher diskon 10%!'\"."
+            },
+            {
+                id: 11,
+                title: "Percabangan 2 Kondisi (IF...THEN...ELSE)",
+                materi: [
+                    "Merancang alur logika yang memiliki dua kemungkinan hasil (jika kondisi terpenuhi, lakukan A; jika tidak, lakukan B)."
+                ],
+                tugas: "Buat **pseudocode dan flowchart** untuk logika \"Pengecekan Mode File\": `IF mode_warna == 'CMYK' THEN tuliskan 'File siap untuk dicetak.' ELSE tuliskan 'File ini optimal untuk tampilan web.'`."
+            },
+            {
+                id: 12,
+                title: "Percabangan Banyak Kondisi",
+                materi: [
+                    "Menangani logika kompleks dengan banyak pilihan menggunakan struktur `IF...ELSE IF...ELSE`."
+                ],
+                tugas: "Buat **pseudocode** untuk logika pemilihan paket desain berikut: `IF pilihan_paket == 'Bronze' THEN harga = 50000. ELSE IF pilihan_paket == 'Silver' THEN harga = 100000. ELSE IF pilihan_paket == 'Gold' THEN harga = 200000. ELSE harga = 0.`"
+            },
+            {
+                id: 13,
+                title: "Perulangan (Looping) untuk Efisiensi Desain",
+                materi: [
+                    "Konsep perulangan untuk melakukan tugas yang sama berulang kali (otomatisasi).",
+                    "Pengenalan struktur `FOR...DO` untuk perulangan dengan jumlah yang sudah ditentukan."
+                ],
+                tugas: "Tuliskan **pseudocode** untuk \"Mengekspor 12 desain kalender bulanan\". Nama file harus berurutan (misal: 'Januari.jpg'). Gunakan perulangan `FOR bulan FROM 1 TO 12`."
+            },
+            {
+                id: 14,
+                title: "Tugas Terintegrasi (Studi Kasus)",
+                materi: [
+                    "Menggabungkan semua konsep (variabel, tipe data, operator, percabangan, perulangan) dalam satu studi kasus."
+                ],
+                tugas: "Buatlah **Dokumen Rancangan Logika** di buku catatan untuk kasus otomatisasi berikut: Membuat 10 variasi warna logo, memeriksa apakah warna terang/gelap, mengubah warna teks sesuai kondisi, lalu menyimpan file secara berurutan. Dokumen harus berisi: (a) Daftar variabel & tipe data, (b) Pseudocode lengkap, (c) Flowchart."
+            },
+            {
+                id: 15,
+                title: "Pembahasan Tugas dan Review Semester",
+                materi: [
+                    "Refleksi dan Penguatan Konsep.",
+                    "Guru memimpin pembahasan jawaban untuk tugas terintegrasi dari pertemuan 14.",
+                    "Mereview kembali seluruh konsep kunci yang telah dipelajari untuk persiapan Ujian Akhir Semester."
+                ],
+                tugas: "Mempersiapkan pertanyaan atau topik yang belum dipahami untuk didiskusikan di kelas."
+            },
+        ];
 
-            navLinks.forEach(link => {
-                link.addEventListener('click', e => {
-                    e.preventDefault();
-                    const targetId = link.getAttribute('data-target');
+        const sessionGrid = document.getElementById('session-grid');
+        const sessionDetails = document.getElementById('session-details');
+        const firstSessionIndex = 0; // The index of "Pertemuan 2" in our array is 0
 
-                    navLinks.forEach(nav => nav.classList.remove('active'));
-                    link.classList.add('active');
+        function showSession(index) {
+            const session = curriculumData[index];
+            if (!session) return;
 
-                    contentSections.forEach(section => {
-                        if (section.id === targetId) {
-                            section.classList.add('active');
-                        } else {
-                            section.classList.remove('active');
-                        }
-                    });
-                });
+            const materiHtml = session.materi.map(item => `
+                <li class="mb-2 flex items-start">
+                    <span class="mr-3 text-[#D57A66]">&#10004;</span>
+                    <span>${item}</span>
+                </li>
+            `).join('');
+
+            sessionDetails.innerHTML = `
+                <h2 class="text-2xl font-bold mb-4 text-[#36454F]">Pertemuan ${session.id}: ${session.title}</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3 border-b-2 border-[#D57A66] pb-2">📚 Materi Pembelajaran</h3>
+                        <ul class="text-gray-700 list-inside">${materiHtml}</ul>
+                    </div>
+                    <div class="bg-[#FDF8F2] p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-3 border-b-2 border-[#D57A66] pb-2">📝 Tugas Harian</h3>
+                        <p class="text-gray-700">${session.tugas}</p>
+                    </div>
+                </div>
+            `;
+
+            updateActiveButton(index);
+        }
+
+        function updateActiveButton(activeIndex) {
+            const buttons = sessionGrid.querySelectorAll('button');
+            buttons.forEach((button, index) => {
+                if (index === activeIndex) {
+                    button.classList.add('active-session');
+                } else {
+                    button.classList.remove('active-session');
+                }
             });
-            
-            const tabsContainer = document.getElementById('tabs-container');
-            if(tabsContainer){
-                const tabButtons = tabsContainer.querySelectorAll('.tab-button');
-                const tabContents = document.querySelectorAll('.tab-content');
-                
-                tabButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        const tabId = button.dataset.tab;
-
-                        tabButtons.forEach(btn => btn.classList.remove('active'));
-                        button.classList.add('active');
-
-                        tabContents.forEach(content => {
-                            if (content.id === tabId) {
-                                content.classList.add('active');
-                            } else {
-                                content.classList.remove('active');
-                            }
-                        });
-                    });
-                });
-            }
-
-            const accordionItems = document.querySelectorAll('.accordion-item');
-            accordionItems.forEach(item => {
-                const header = item.querySelector('.accordion-header');
-                const content = item.querySelector('.accordion-content');
-                const icon = header.querySelector('span:last-child');
-                header.addEventListener('click', () => {
-                    if (content.style.maxHeight) {
-                        content.style.maxHeight = null;
-                        icon.style.transform = 'rotate(0deg)';
-                    } else {
-                        accordionItems.forEach(otherItem => {
-                             otherItem.querySelector('.accordion-content').style.maxHeight = null;
-                             otherItem.querySelector('.accordion-header span:last-child').style.transform = 'rotate(0deg)';
-                        })
-                        content.style.maxHeight = content.scrollHeight + "px";
-                        icon.style.transform = 'rotate(180deg)';
-                    }
-                });
+        }
+        
+        function init() {
+            curriculumData.forEach((session, index) => {
+                const button = document.createElement('button');
+                button.className = "session-card w-full p-3 bg-white rounded-lg shadow hover:shadow-md hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#D57A66] focus:ring-opacity-50 font-semibold";
+                button.textContent = `P-${session.id}`;
+                button.onclick = () => showSession(index);
+                sessionGrid.appendChild(button);
             });
-            
-            const checkAgeBtn = document.getElementById('check-age-btn');
-            if (checkAgeBtn) {
-                const ageInput = document.getElementById('age-input');
-                const ageResult = document.getElementById('age-result');
-                const flowchartShapes = {
-                    start: document.getElementById('flow-start'),
-                    input: document.getElementById('flow-input'),
-                    decision: document.getElementById('flow-decision'),
-                    truePath: document.getElementById('flow-true'),
-                    falsePath: document.getElementById('flow-false')
-                };
+            showSession(firstSessionIndex);
+        }
 
-                checkAgeBtn.addEventListener('click', () => {
-                    const age = parseInt(ageInput.value, 10);
-                    
-                    Object.values(flowchartShapes).forEach(shape => shape.classList.remove('highlight'));
-                    
-                    flowchartShapes.start.classList.add('highlight');
-                    flowchartShapes.input.classList.add('highlight');
-                    flowchartShapes.decision.classList.add('highlight');
-
-                    if (isNaN(age)) {
-                        ageResult.textContent = 'Masukkan umur yang valid.';
-                        ageResult.style.color = '#dc2626';
-                        return;
-                    }
-
-                    if (age > 17) {
-                        ageResult.textContent = 'Anda boleh punya SIM.';
-                        ageResult.style.color = '#16a34a';
-                        flowchartShapes.truePath.classList.add('highlight');
-                    } else {
-                        ageResult.textContent = 'Anda belum boleh punya SIM.';
-                        ageResult.style.color = '#f97316';
-                        flowchartShapes.falsePath.classList.add('highlight');
-                    }
-                });
-            }
-        });
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
